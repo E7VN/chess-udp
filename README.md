@@ -1,9 +1,4 @@
 # chess-udp
-Multiplayer Chess Game with Raw Socket Networking
-
-Here’s a clean and informative **GitHub README description** for your chess project, including what it does and how to run it in each mode:
-
----
 
 ## ♟️ Python Multiplayer Chess Game (LAN)
 
