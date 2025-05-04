@@ -106,7 +106,7 @@ def draw_board():
             piece = board.piece_at(square)
             if piece:
                 symbol = piece.symbol()
-                filename = f"assets/{symbol}.png" if symbol.isupper() else f"assets/b{symbol}.png"
+                filename = f"{symbol}.png" if symbol.isupper() else f"b{symbol}.png"
                 try:
                     img = pygame.image.load(filename)
                     screen.blit(pygame.transform.scale(img, (SQUARE_SIZE, SQUARE_SIZE)), (c * SQUARE_SIZE, r * SQUARE_SIZE))
@@ -192,7 +192,6 @@ def server_thread():
                 sock.sendto("WELCOME_SPECTATOR".encode(), addr)
                 chat_log.append("A spectator joined.")
                 print(f"Spectator connected from {spectator_addrs}")
-                # Send current board state and chat log
                 sock.sendto(f"BOARD:{board.fen()}".encode(), addr)
                 for msg in chat_log[-10:]:
                     sock.sendto(f"CHAT:{msg}".encode(), addr)
@@ -210,11 +209,11 @@ def server_thread():
                         is_check = board.is_check()
                         game_started = True
 
-                        # ✅ SEND updated board state to all spectators
+                        # SEND updated board state to all spectators
                         for saddr in spectator_addrs:
                             sock.sendto(f"BOARD:{board.fen()}".encode(), saddr)
 
-                        # ✅ SEND captured pieces to spectators
+                        # SEND captured pieces to spectators
                         captured_data = f"CAPTURED:{','.join(captured_white)}|{','.join(captured_black)}"
                         for saddr in spectator_addrs:
                             sock.sendto(captured_data.encode(), saddr)
